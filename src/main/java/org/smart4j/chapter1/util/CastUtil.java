@@ -80,4 +80,28 @@ public class CastUtil {
 
         return booleanValue;
     }
+
+    /**
+     * 转为Long类型
+     * @param obj
+     * @return
+     */
+    public static long castLong(Object obj){
+        return castLong(obj,0);
+    }
+
+    /**
+     * 转为转为Long类型类型(提供默认值)
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static long castLong(Object obj,long defaultValue){
+        long longValue = defaultValue;
+        if(null != obj){
+            longValue = Long.parseLong(castString(obj));
+        }
+
+        return longValue;
+    }
 }

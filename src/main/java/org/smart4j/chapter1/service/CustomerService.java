@@ -1,18 +1,18 @@
 package org.smart4j.chapter1.service;
 
 import org.apache.log4j.Logger;
+import org.smart4j.chapter1.annotation.Service;
 import org.smart4j.chapter1.entity.Customer;
 import org.smart4j.chapter1.helper.DatabaseHelper;
 import org.smart4j.chapter1.util.PropsUtil;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by qingbowu on 2017/9/30.
  */
+@Service
 public class CustomerService {
 
     private static final Logger LOGGER = Logger.getLogger(CustomerService.class);
@@ -48,8 +48,6 @@ public class CustomerService {
             }
         } catch (SQLException e) {
             LOGGER.error("execute sql failure",e);
-        }finally {
-            DatabaseHelper.closeConnection();
         }
         return list;
     }
@@ -73,8 +71,8 @@ public class CustomerService {
      * @return
      */
     public Customer getCustomer(Long id){
-        //TODO
-        return null;
+        String sql = "select * from customer where id = ?";
+        return DatabaseHelper.queryEntity(sql, Customer.class, id);
     }
 
     /**
@@ -83,8 +81,8 @@ public class CustomerService {
      * @return
      */
     public boolean addCustmer(Customer customer){
-        //TODO
-        return false;
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        return DatabaseHelper.insertEntity(Customer.class,paramsMap);
     }
 
     /**
@@ -93,8 +91,8 @@ public class CustomerService {
      * @return
      */
     public boolean updateCustmer(Customer customer){
-        //TODO
-        return false;
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        return DatabaseHelper.updateEntity(Customer.class,customer.getId(),paramsMap);
     }
 
     /**
@@ -103,7 +101,6 @@ public class CustomerService {
      * @return
      */
     public boolean deleteCustmer(Long id){
-        //TODO
-        return false;
+        return DatabaseHelper.deleteEntity(Customer.class,id);
     }
 }
